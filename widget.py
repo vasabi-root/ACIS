@@ -30,16 +30,16 @@ class Widget(QWidget):
         self.ui = Ui_Widget()
         self.ui.setupUi(self)
         
-        tebleInit(self.ui.tableRGP, 50)
-        tebleInit(self.ui.tableCPR, 50)
-        tebleInit(self.ui.tableMem, 30)
+        tableInit(self.ui.tableRGP, 50)
+        tableInit(self.ui.tableCPR, 50)
+        tableInit(self.ui.tableMem, 30)
         
         palette = parse_xml(pathPalette)
         qApp.setPalette(palette)
         
         ui_file.close()
 
-def tebleInit(table: QTableWidget, width: int) -> None:
+def tableInit(table: QTableWidget, width: int) -> None:
     table.setVerticalScrollMode(QAbstractItemView.ScrollPerPixel)
     table.horizontalHeader().setSectionResizeMode(QHeaderView.Fixed)
     table.verticalHeader().setSectionResizeMode(QHeaderView.Fixed)
