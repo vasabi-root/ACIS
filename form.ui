@@ -1,0 +1,1468 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Widget</class>
+ <widget class="QWidget" name="Widget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1092</width>
+    <height>665</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="palette">
+   <palette>
+    <active/>
+    <inactive/>
+    <disabled/>
+   </palette>
+  </property>
+  <property name="contextMenuPolicy">
+   <enum>Qt::ActionsContextMenu</enum>
+  </property>
+  <property name="windowTitle">
+   <string>Widget</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QLineEdit, QTextEdit { 
+	background-color: #404142;
+	border-style: none;
+}
+
+QScrollBar {
+     border: none;
+     background: #404142;
+     height: 8px;
+     width: 8px;
+     margin: 0px;
+	border-radius: 4px	;
+}
+
+QScrollBar::handle {
+   background: grey;
+    min-width: 20px;
+    min-height: 20px;
+	border-radius: 4px;
+}
+QScrollBar::add-line,  QScrollBar::sub-line {
+	border-radius: 4px	;
+}
+
+ QScrollBar::add-page, QScrollBar::sub-page {
+	border-radius: 4px	;
+}
+
+
+ QGroupBox {
+	color: #d0d0d0;
+     border: 2px solid gray;
+     border-radius: 5px;
+     margin-top: 2ex; /* leave space at the top for the title */
+     margin-left: 1ex; /* leave space at the top for the title */
+	margin-right: 1ex; /* leave space at the top for the title */
+ }
+
+ QGroupBox:title {
+     subcontrol-origin: margin;
+     subcontrol-position: top center; /* position at the top center */
+     padding: 0px;
+ }
+
+/* это надо пихнуть в родительский виджет!!! */
+QTableCornerButton::section { 
+    border-top: 1px solid grey;
+    border-bottom: 1px solid grey;
+    border-right: 1px solid grey;
+    border-left: 1px solid grey;
+}
+
+QTableView {
+	border-style: none;
+	border: 0px solid grey;
+	border-radius: 3px;
+	background-color:#2e2f30;
+}
+
+QAbstractItemView{
+	background-color:#2e2f30;
+}
+QHeaderView::section {
+	background-color:  #404142;
+    padding: 4px;
+    border-style: none;
+    border-bottom: 1px solid grey;
+    border-right: 1px solid grey;
+}
+
+QHeaderView::section:horizontal
+{
+	background-color:  #404142;
+    border-top: 1px solid grey;
+	height: 20px;
+}
+
+QHeaderView::section:vertical
+{
+	background-color:  #404142;
+    border-left: 1px solid grey;
+	height: 20px;
+}
+
+QPushButton{
+	border-styl: none;
+}
+QPushButton{
+	border-style: none;
+	border: 1px solid grey;
+	border-radius: 2px;
+	padding: 8px;
+	
+	background-color:  qlineargradient(spread:pad, x1:1, y1:1, x2:1, y2:0, stop:0 rgba(77, 78, 79, 255), stop:1 rgba(90, 91, 92, 255))
+}
+QPushButton:hover{
+	border-style: none;
+	border: 1px solid grey;
+	border-radius: 2px;
+	padding: 8px;
+	
+	background-color:  qlineargradient(spread:pad, x1:1, y1:1, x2:1, y2:0, stop:0 rgba(97, 98, 99, 255), stop:1 rgba(110, 111, 112, 255))
+}
+
+QPushButton:pressed{
+	border-style: none;
+	border: 1px solid grey;
+	border-radius: 2px;
+	padding: 8px;
+	
+	background-color:  qlineargradient(spread:pad, x1:1, y1:1, x2:1, y2:0, stop:0 rgba(57, 58, 59, 255), stop:1 rgba(70, 71, 72, 255))
+}
+</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_3">
+   <item>
+    <layout class="QGridLayout" name="gridLayout_2">
+     <item row="1" column="4" rowspan="2">
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QPushButton" name="Open">
+         <property name="maximumSize">
+          <size>
+           <width>80</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Open</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButtonSave">
+         <property name="maximumSize">
+          <size>
+           <width>80</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Save</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButtonSaveAs">
+         <property name="maximumSize">
+          <size>
+           <width>80</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Save as</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButtonClose">
+         <property name="maximumSize">
+          <size>
+           <width>80</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Close</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+     <item row="1" column="5" rowspan="5">
+      <widget class="QGroupBox" name="groupBoxMem_2">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>300</width>
+         <height>400</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
+       <property name="title">
+        <string>Code</string>
+       </property>
+       <property name="flat">
+        <bool>false</bool>
+       </property>
+       <property name="checkable">
+        <bool>false</bool>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <widget class="QTextEdit" name="textEditCode"/>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item row="6" column="1">
+      <spacer name="verticalSpacer_6">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item row="1" column="2" rowspan="4">
+      <widget class="QGroupBox" name="groupBoxCPR">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>151</width>
+         <height>251</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
+       <property name="title">
+        <string>Co-Processor Regs</string>
+       </property>
+       <property name="flat">
+        <bool>false</bool>
+       </property>
+       <property name="checkable">
+        <bool>false</bool>
+       </property>
+       <widget class="QTableWidget" name="tableCPR">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>30</y>
+          <width>131</width>
+          <height>211</height>
+         </rect>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <property name="verticalScrollBarPolicy">
+         <enum>Qt::ScrollBarAsNeeded</enum>
+        </property>
+        <property name="horizontalScrollBarPolicy">
+         <enum>Qt::ScrollBarAsNeeded</enum>
+        </property>
+        <property name="dragEnabled">
+         <bool>false</bool>
+        </property>
+        <property name="alternatingRowColors">
+         <bool>true</bool>
+        </property>
+        <property name="cornerButtonEnabled">
+         <bool>false</bool>
+        </property>
+        <attribute name="horizontalHeaderCascadingSectionResizes">
+         <bool>false</bool>
+        </attribute>
+        <attribute name="horizontalHeaderMinimumSectionSize">
+         <number>30</number>
+        </attribute>
+        <attribute name="horizontalHeaderDefaultSectionSize">
+         <number>58</number>
+        </attribute>
+        <attribute name="horizontalHeaderStretchLastSection">
+         <bool>false</bool>
+        </attribute>
+        <attribute name="verticalHeaderVisible">
+         <bool>true</bool>
+        </attribute>
+        <attribute name="verticalHeaderCascadingSectionResizes">
+         <bool>false</bool>
+        </attribute>
+        <attribute name="verticalHeaderMinimumSectionSize">
+         <number>30</number>
+        </attribute>
+        <attribute name="verticalHeaderDefaultSectionSize">
+         <number>30</number>
+        </attribute>
+        <attribute name="verticalHeaderStretchLastSection">
+         <bool>false</bool>
+        </attribute>
+        <row>
+         <property name="text">
+          <string>FR0</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>FR1</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>FR2</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>FR3</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>FR4</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>FR5</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>FR6</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>FR7</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>FR8</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>FR9</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>FR10</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>FR11</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>FR12</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>FR13</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>FR14</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>FR15</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>FR16</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>FR17</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>FR18</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>FR19</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>FR20</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>FR21</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>FR22</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>FR23</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>FR24</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>FR25</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>FR26</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>FR27</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>FR28</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>FR29</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>FR30</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>FR31</string>
+         </property>
+        </row>
+        <column>
+         <property name="text">
+          <string>VAL</string>
+         </property>
+        </column>
+       </widget>
+      </widget>
+     </item>
+     <item row="0" column="5">
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <spacer name="verticalSpacer_5">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <spacer name="horizontalSpacer_4">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButtonPlay">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>40</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>40</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="sizeIncrement">
+            <size>
+             <width>0</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>20</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>▶</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButtonStep">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>40</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>40</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="sizeIncrement">
+            <size>
+             <width>30</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>20</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>▷</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButtonReset">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>40</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>40</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="sizeIncrement">
+            <size>
+             <width>30</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>13</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>⭮</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButtonStop">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>40</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>40</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="sizeIncrement">
+            <size>
+             <width>30</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>13</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>■</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_3">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+     <item row="1" column="1" rowspan="4">
+      <widget class="QGroupBox" name="groupBoxRGP">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>151</width>
+         <height>251</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
+       <property name="title">
+        <string>RGP</string>
+       </property>
+       <property name="flat">
+        <bool>false</bool>
+       </property>
+       <property name="checkable">
+        <bool>false</bool>
+       </property>
+       <widget class="QTableWidget" name="tableRGP">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>30</y>
+          <width>131</width>
+          <height>211</height>
+         </rect>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <property name="verticalScrollBarPolicy">
+         <enum>Qt::ScrollBarAsNeeded</enum>
+        </property>
+        <property name="horizontalScrollBarPolicy">
+         <enum>Qt::ScrollBarAsNeeded</enum>
+        </property>
+        <property name="dragEnabled">
+         <bool>false</bool>
+        </property>
+        <property name="alternatingRowColors">
+         <bool>true</bool>
+        </property>
+        <property name="cornerButtonEnabled">
+         <bool>false</bool>
+        </property>
+        <attribute name="horizontalHeaderCascadingSectionResizes">
+         <bool>false</bool>
+        </attribute>
+        <attribute name="horizontalHeaderMinimumSectionSize">
+         <number>30</number>
+        </attribute>
+        <attribute name="horizontalHeaderDefaultSectionSize">
+         <number>58</number>
+        </attribute>
+        <attribute name="horizontalHeaderStretchLastSection">
+         <bool>false</bool>
+        </attribute>
+        <attribute name="verticalHeaderVisible">
+         <bool>true</bool>
+        </attribute>
+        <attribute name="verticalHeaderCascadingSectionResizes">
+         <bool>false</bool>
+        </attribute>
+        <attribute name="verticalHeaderMinimumSectionSize">
+         <number>30</number>
+        </attribute>
+        <attribute name="verticalHeaderDefaultSectionSize">
+         <number>30</number>
+        </attribute>
+        <attribute name="verticalHeaderStretchLastSection">
+         <bool>false</bool>
+        </attribute>
+        <row>
+         <property name="text">
+          <string>RG0</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>RG1</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>RG2</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>RG3</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>RG4</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>RG5</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>RG6</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>RG7</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>RG9</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>RG10</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>RG11</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>RG12</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>RG13</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>RG14</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>RG15</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>RG16</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>RG17</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>RG18</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>RG19</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>RG20</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>RG21</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>RG22</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>RG23</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>RG24</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>RG25</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>RG26</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>RG27</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>RG28</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>RG29</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>RG30</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>RG31</string>
+         </property>
+        </row>
+        <column>
+         <property name="text">
+          <string>VAL</string>
+         </property>
+        </column>
+       </widget>
+      </widget>
+     </item>
+     <item row="1" column="6">
+      <spacer name="horizontalSpacer_5">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item row="2" column="3">
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <spacer name="horizontalSpacer_9">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QLabel" name="labelPCR">
+         <property name="text">
+          <string> PCR</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lineEdit">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_8">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+     <item row="3" column="3">
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="0" column="1">
+        <widget class="QLabel" name="labelS">
+         <property name="text">
+          <string>S</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="7">
+        <widget class="QLabel" name="labelM">
+         <property name="text">
+          <string>M</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="5">
+        <widget class="QLabel" name="labelI">
+         <property name="text">
+          <string>I</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="8">
+        <widget class="QCheckBox" name="checkBox0">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="3">
+        <widget class="QLabel" name="labelC">
+         <property name="text">
+          <string>C</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QLabel" name="labelZ">
+         <property name="text">
+          <string>Z</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="4">
+        <widget class="QLabel" name="labelO">
+         <property name="text">
+          <string>O</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="2">
+        <widget class="QCheckBox" name="checkBoxZ">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="4">
+        <widget class="QCheckBox" name="checkBoxO">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="3">
+        <widget class="QCheckBox" name="checkBoxC">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="5">
+        <widget class="QCheckBox" name="checkBoxI">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="8">
+        <widget class="QLabel" name="label0">
+         <property name="text">
+          <string>0</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="6">
+        <widget class="QCheckBox" name="checkBoxT">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="6">
+        <widget class="QLabel" name="labelT">
+         <property name="text">
+          <string>T</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="9">
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="2" column="1">
+        <widget class="QCheckBox" name="checkBoxS">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="7">
+        <widget class="QCheckBox" name="checkBoxM">
+         <property name="contextMenuPolicy">
+          <enum>Qt::DefaultContextMenu</enum>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <spacer name="horizontalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+     <item row="5" column="1" colspan="3">
+      <widget class="QGroupBox" name="groupBoxMem">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>591</width>
+         <height>251</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>591</width>
+         <height>251</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
+       <property name="title">
+        <string>Memory</string>
+       </property>
+       <property name="flat">
+        <bool>false</bool>
+       </property>
+       <property name="checkable">
+        <bool>false</bool>
+       </property>
+       <widget class="QTableWidget" name="tableMem">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>30</y>
+          <width>571</width>
+          <height>211</height>
+         </rect>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QHeaderView::section:horizontal
+{
+	width: 20px;
+}
+
+QHeaderView::section:vertical
+{
+	height: 30px;
+}</string>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::NoFrame</enum>
+        </property>
+        <property name="verticalScrollBarPolicy">
+         <enum>Qt::ScrollBarAsNeeded</enum>
+        </property>
+        <property name="horizontalScrollBarPolicy">
+         <enum>Qt::ScrollBarAsNeeded</enum>
+        </property>
+        <property name="dragEnabled">
+         <bool>false</bool>
+        </property>
+        <property name="alternatingRowColors">
+         <bool>true</bool>
+        </property>
+        <property name="cornerButtonEnabled">
+         <bool>false</bool>
+        </property>
+        <attribute name="horizontalHeaderCascadingSectionResizes">
+         <bool>false</bool>
+        </attribute>
+        <attribute name="horizontalHeaderMinimumSectionSize">
+         <number>30</number>
+        </attribute>
+        <attribute name="horizontalHeaderDefaultSectionSize">
+         <number>30</number>
+        </attribute>
+        <attribute name="horizontalHeaderStretchLastSection">
+         <bool>false</bool>
+        </attribute>
+        <attribute name="verticalHeaderVisible">
+         <bool>true</bool>
+        </attribute>
+        <attribute name="verticalHeaderCascadingSectionResizes">
+         <bool>false</bool>
+        </attribute>
+        <attribute name="verticalHeaderMinimumSectionSize">
+         <number>30</number>
+        </attribute>
+        <attribute name="verticalHeaderDefaultSectionSize">
+         <number>30</number>
+        </attribute>
+        <attribute name="verticalHeaderStretchLastSection">
+         <bool>false</bool>
+        </attribute>
+        <row>
+         <property name="text">
+          <string>00000000</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>00000010</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>00000020</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>00000030</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>00000040</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>00000050</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>00000060</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>00000070</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>00000080</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>00000090</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>000000A0</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>000000B0</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>000000C0</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>000000D0</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>000000E0</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>000000F0</string>
+         </property>
+        </row>
+        <column>
+         <property name="text">
+          <string>00</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>01</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>02</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>03</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>04</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>05</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>06</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>07</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>08</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>09</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>0A</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>0B</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>0C</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>0E</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>0F</string>
+         </property>
+        </column>
+       </widget>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <spacer name="horizontalSpacer_7">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
