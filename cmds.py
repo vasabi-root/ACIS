@@ -1,18 +1,22 @@
-from math import fabs
 from typing import List
 
-from regs import FLR, TLB, S, set_S, set_Z, set_C, set_O
+from regs import (
+    set_S, set_Z, set_C, set_O,
+    drop_S, drop_Z, drop_C, drop_O,
+    set_PC, get_PC, get_FLR, set_FLR,
+    drop_FLR, get_TLB, set_TLB, set_M, drop_M
+)
 
 
 class Assembly:
 
     @staticmethod
     def check_S(result: int) -> None:
-        set_S() if result < 0 else None
+        set_S() if result < 0 else drop_S()
 
     @staticmethod
     def check_Z(result: int) -> None:
-        set_Z() if result == 0 else None
+        set_Z() if result == 0 else drop_Z()
 
     @staticmethod
     def check_C(result: int, arg1: int, arg2: int) -> None:
@@ -23,12 +27,14 @@ class Assembly:
             arg1 >>= 1
             arg2 >>= 1
             result >>= 1
-        set_C() if result == 0 else None
+        set_C() if result == 0 else drop_C()
 
     @staticmethod
     def check_O(result: int) -> None:
         if result >= (2 << 32) or result < -(2 << 32):
             set_O()
+        else:
+            drop_O()
 
     @staticmethod
     def check_I() -> None:
@@ -50,28 +56,32 @@ class Assembly:
             return result % -(2 << 32)
 
     @staticmethod
-    def RB(RG: List[int], R0: int, R1: int, C: int = 0) -> None:
-        RG[R0] = RG[R1] + C
+    def RB(RG: List[int], MEM: List[int], R0: int, R1: int, C: int = 0) -> None:
+        RG[R0] = MEM[RG[R1] + C]
 
     @staticmethod
-    def RW(RG: List[int], R0: int, R1: int, C: int = 0) -> None:
-        return Assembly.RB(RG, R0, R1, C)
+    def RW(RG: List[int], MEM: List[int], R0: int, R1: int, C: int = 0) -> None:
+        return Assembly.RB(RG, MEM, R0, R1, C)
 
     @staticmethod
-    def RD(RG: List[int], R0: int, R1: int, C: int = 0) -> None:
-        return Assembly.RB(RG, R0, R1, C)
+    def RD(RG: List[int], MEM: List[int], R0: int, R1: int, C: int = 0) -> None:
+        return Assembly.RB(RG, MEM, R0, R1, C)
 
     @staticmethod
     def WB(RG: List[int], MEM: List[int], R0: int, R1: int, C: int = 0) -> None:
-        MEM[RG[R1] + C] = RG[R0]
+        MEM[RG[R1] + C] = RG[R0] & 0xff
 
     @staticmethod
     def WW(RG: List[int], MEM: List[int], R0: int, R1: int, C: int = 0) -> None:
-        MEM[RG[R1] + C: RG[R1] + C + 1] = [MEM[RG[R0] + i] for i in range(2)]
+        MEM[RG[R1] + C] = RG[R0] & 0xff
+        MEM[RG[R1] + C + 1] = RG[R0] & 0xff00
 
     @staticmethod
     def WD(RG: List[int], MEM: List[int], R0: int, R1: int, C: int = 0) -> None:
-        MEM[RG[R1] + C: RG[R1] + C + 3] = [MEM[RG[R0] + i] for i in range(4)]
+        MEM[RG[R1] + C] = RG[R0] & 0xff
+        MEM[RG[R1] + C + 1] = RG[R0] & 0xff00
+        MEM[RG[R1] + C + 2] = RG[R0] & 0xff0000
+        MEM[RG[R1] + C + 3] = RG[R0] & 0xff000000
 
     @staticmethod
     def RI(RG: List[int], R0: int, C: int) -> None:
@@ -184,190 +194,200 @@ class Assembly:
     @staticmethod
     def NOT(RG: List[int], R0: int) -> None:
         RG[R0] = ~RG[R0]
+        Assembly.check_S(RG[R0])
+        Assembly.check_Z(RG[R0])
 
     @staticmethod
     def AND(RG: List[int], R0: int, R1: int) -> None:
         RG[R0] = RG[R0] & RG[R1]
+        Assembly.check_S(RG[R0])
+        Assembly.check_Z(RG[R0])
 
     @staticmethod
     def ANDI(RG: List[int], R0: int, C: int) -> None:
         RG[R0] = RG[R0] & C
+        Assembly.check_S(RG[R0])
+        Assembly.check_Z(RG[R0])
 
     @staticmethod
     def OR(RG: List[int], R0: int, R1: int) -> None:
         RG[R0] = RG[R0] | RG[R1]
+        Assembly.check_S(RG[R0])
+        Assembly.check_Z(RG[R0])
 
     @staticmethod
     def ORI(RG: List[int], R0: int, C: int) -> None:
         RG[R0] = RG[R0] | C
+        Assembly.check_S(RG[R0])
+        Assembly.check_Z(RG[R0])
 
     @staticmethod
     def XOR(RG: List[int], R0: int, R1: int) -> None:
         RG[R0] = RG[R0] ^ RG[R1]
+        Assembly.check_S(RG[R0])
+        Assembly.check_Z(RG[R0])
 
     @staticmethod
     def XORI(RG: List[int], R0: int, C: int) -> None:
         RG[R0] = RG[R0] ^ C
+        Assembly.check_S(RG[R0])
+        Assembly.check_Z(RG[R0])
 
     @staticmethod
     def SHL(RG: List[int], R0: int, C: int) -> None:
+        t = RG[R0]
         RG[R0] = RG[R0] << C
+        Assembly.check_S(RG[R0])
+        Assembly.check_Z(RG[R0])
+        Assembly.check_C(RG[R0], t, C)
+        Assembly.check_O(RG[R0])
 
     @staticmethod
     def SHR(RG: List[int], R0: int, C: int) -> None:
+        t = RG[R0]
         RG[R0] = RG[R0] >> C
+        Assembly.check_S(RG[R0])
+        Assembly.check_Z(RG[R0])
+        Assembly.check_C(RG[R0], t, C)
+        Assembly.check_O(RG[R0])
 
     @staticmethod
-    def CALL() -> None:
-        # TODO
-        pass
+    def CALL(RG: List[int], R0: int) -> None:
+        RG[3] = get_PC()
+        set_PC(RG[R0])
 
     @staticmethod
-    def RET() -> None:
-        # TODO
-        pass
+    def RET(RG: List[int]) -> None:
+        set_PC(RG[3])
 
     @staticmethod
-    def JMP() -> None:
-        # TODO
-        pass
+    def JMP(C: int) -> None:
+        set_PC(C)
 
     @staticmethod
-    def RJMP() -> None:
-        # TODO
-        pass
+    def RJMP(C: int) -> None:
+        set_PC(get_PC() + C)
 
     @staticmethod
-    def JZ() -> None:
-        # TODO
-        pass
+    def JZ(C: int) -> None:
+        Assembly.JMP(C)
 
     @staticmethod
-    def JNZ() -> None:
-        # TODO
-        pass
+    def JNZ(C: int) -> None:
+        Assembly.JMP(C)
 
     @staticmethod
-    def JO() -> None:
-        # TODO
-        pass
+    def JO(C: int) -> None:
+        Assembly.JMP(C)
 
     @staticmethod
-    def JNO() -> None:
-        # TODO
-        pass
+    def JNO(C: int) -> None:
+        Assembly.JMP(C)
 
     @staticmethod
-    def JC() -> None:
-        # TODO
-        pass
+    def JC(C: int) -> None:
+        Assembly.JMP(C)
 
     @staticmethod
-    def JNC() -> None:
-        # TODO
-        pass
+    def JNC(C: int) -> None:
+        Assembly.JMP(C)
 
     @staticmethod
-    def JPS() -> None:
-        # TODO
-        pass
+    def JPS(C: int) -> None:
+        Assembly.JMP(C)
 
     @staticmethod
-    def JMS() -> None:
-        # TODO
-        pass
+    def JMS(C: int) -> None:
+        Assembly.JMP(C)
 
     @staticmethod
     def NOP() -> None:
-        # TODO
-        pass
+        set_PC(get_PC() + 1)
 
     @staticmethod
     def INT() -> None:
-        # TODO
-        pass
+        raise NotImplemented
 
     @staticmethod
     def IRET() -> None:
-        # TODO
-        pass
+        raise NotImplemented
 
     @staticmethod
-    def RFL(RG: List[int], R0: int, F: int) -> None:
-        RG[R0] = F
+    def RFL(RG: List[int], R0: int) -> None:
+        RG[R0] = get_FLR()
 
     @staticmethod
     def SFL(F: int) -> None:
-        global FLR
-        FLR |= (1 << F)
+        set_FLR(1 << F)
 
     @staticmethod
     def CFL(F: int) -> None:
-        global FLR
-        FLR &= (0 << F)
+        drop_FLR(0 << F)
 
     @staticmethod
     def RTLB(RG: List[int], R0: int) -> None:
-        RG[R0] = TLB
+        RG[R0] = get_TLB()
 
     @staticmethod
     def WTLB(RG: List[int], R0: int) -> None:
-        global TLB
-        TLB = RG[R0]
+        set_TLB(RG[R0])
 
     @staticmethod
     def RFE() -> None:
-        # TODO
-        pass
+        drop_M()
 
     @staticmethod
     def SCALL() -> None:
-        # TODO
-        pass
+        set_M()
 
     @staticmethod
     def HALT() -> None:
-        # TODO
-        pass
+        raise NotImplemented
 
     @staticmethod
-    def IFC(RG: List[int], R0: int, R1: int) -> None:
-        RG[R0] = RG[R1]
+    def IFC(FP: List[int], RG: List[int], R0: int, R1: int) -> None:
+        FP[R0] = RG[R1]
+        Assembly.check_S(FP[R0])
+        Assembly.check_Z(FP[R0])
+        Assembly.check_C(FP[R0], RG[R1], 0)
+        Assembly.check_O(FP[R0])
 
     @staticmethod
-    def FIC(RG: List[int], R0: int, R1: int) -> None:
-        RG[R1] = RG[R0]
+    def FIC(FP: List[int], RG: List[int], R0: int, R1: int) -> None:
+        RG[R1] = FP[R0]
+        Assembly.check_S(FP[R1])
+        Assembly.check_Z(FP[R1])
+        Assembly.check_C(RG[R1], FP[R0], 0)
+        Assembly.check_O(FP[R1])
 
     @staticmethod
-    def FADD(RG: List[int], R0: int, R1: int, R2: int) -> None:
-        RG[R0] = RG[R1] + RG[R2]
+    def FADD(FP: List[int], R0: int, R1: int, R2: int) -> None:
+        return Assembly.ADD(FP, R0, R1, R2)
 
     @staticmethod
-    def FSUB(RG: List[int], R0: int, R1: int, R2: int) -> None:
-        RG[R0] = RG[R1] - RG[R2]
+    def FSUB(FP: List[int], R0: int, R1: int, R2: int) -> None:
+        return Assembly.SUB(FP, R0, R1, R2)
 
     @staticmethod
-    def FMUL(RG: List[int], R5: int, R4: int, R0: int, R1: int) -> None:
-        return Assembly.MUL(RG, R5, R4, R0, R1)
+    def FMUL(FP: List[int], R5: int, R4: int, R0: int, R1: int) -> None:
+        return Assembly.MUL(FP, R5, R4, R0, R1)
 
     @staticmethod
-    def FDIV(RG: List[int], R5: int, R4: int, R0: int, R1: int) -> None:
-        return Assembly.DIV(RG, R5, R4, R0, R1)
+    def FDIV(FP: List[int], R5: int, R4: int, R0: int, R1: int) -> None:
+        return Assembly.DIV(FP, R5, R4, R0, R1)
 
     @staticmethod
-    def FMOV(RG: List[int], R0: int, R1: int) -> None:
-        RG[R0] = RG[R1]
+    def FMOV(FP: List[int], R0: int, R1: int) -> None:
+        FP[R0] = FP[R1]
 
     @staticmethod
-    def FRI(RG: List[int], R0: int, C: int) -> None:
-        RG[R0] = C
+    def FRI(FP: List[int], R0: int, C: int) -> None:
+        FP[R0] = C
 
     @staticmethod
-    def FRD(RG: List[int], R0: int, R1: int, C: int) -> None:
-        # TODO
-        pass
+    def FRD(FP: List[int], MEM: List[int], R0: int, R1: int, C: int) -> None:
+        return Assembly.RD(FP, MEM, R0, R1, C)
 
     @staticmethod
-    def FWD(RG: List[int], R0: int, R1: int, C: int) -> None:
-        # TODO
-        pass
+    def FWD(FP: List[int], MEM: List[int], R0: int, R1: int, C: int) -> None:
+        return Assembly.WD(FP, MEM, R0, R1, C)
