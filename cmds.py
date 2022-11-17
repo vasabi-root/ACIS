@@ -1,6 +1,7 @@
 from typing import List
 
 from regs import (
+    S, Z, C, O,
     set_S, set_Z, set_C, set_O,
     drop_S, drop_Z, drop_C, drop_O,
     set_PC, get_PC, get_FLR, set_FLR,
@@ -61,11 +62,17 @@ class Assembly:
 
     @staticmethod
     def RW(RG: List[int], MEM: List[int], R0: int, R1: int, C: int = 0) -> None:
-        return Assembly.RB(RG, MEM, R0, R1, C)
+        RG[R0] =  MEM[RG[R1] + C]
+        RG[R0] += MEM[RG[R1] + C + 1] << 8
+        # return Assembly.RB(RG, MEM, R0, R1, C)
 
     @staticmethod
     def RD(RG: List[int], MEM: List[int], R0: int, R1: int, C: int = 0) -> None:
-        return Assembly.RB(RG, MEM, R0, R1, C)
+        RG[R0] =  MEM[RG[R1] + C]
+        RG[R0] += MEM[RG[R1] + C + 1] << 8
+        RG[R0] += MEM[RG[R1] + C + 1] << 16
+        RG[R0] += MEM[RG[R1] + C + 1] << 24
+        # return Assembly.RB(RG, MEM, R0, R1, C)
 
     @staticmethod
     def WB(RG: List[int], MEM: List[int], R0: int, R1: int, C: int = 0) -> None:
@@ -124,72 +131,59 @@ class Assembly:
         Assembly.check_O(RG[R0])
 
     @staticmethod
-    def MUL(RG: List[int], R5: int, R4: int, R0: int, R1: int) -> None:
-        RG[R5] = (RG[R0] * RG[R1]) & int('0' * 32 + '1' * 32, 2)
-        RG[R4] = ((RG[R0] * RG[R1]) >> 32) & int('0' * 32 + '1' * 32, 2)
-        Assembly.check_S(RG[R5])
-        Assembly.check_Z(RG[R5])
-        Assembly.check_C(RG[R5], RG[R0], RG[R1])
-        Assembly.check_O(RG[R5])
-        Assembly.check_S(RG[R4])
-        Assembly.check_Z(RG[R4])
-        Assembly.check_C(RG[R4], RG[R0], RG[R1])
-        Assembly.check_O(RG[R4])
+    def MUL(RG: List[int], R0: int, R1: int) -> None:
+        res = RG[R0] * RG[R1]
+        RG[5] = res & int('0' * 32 + '1' * 32, 2)
+        RG[4] = (res >> 32) & int('0' * 32 + '1' * 32, 2)
+        Assembly.check_S(res)
+        Assembly.check_Z(res)
+        Assembly.check_C(res, RG[R0], RG[R1])
+        Assembly.check_O(res)
 
     @staticmethod
-    def MULI(RG: List[int], R5: int, R4: int, R0: int, C: int) -> None:
-        RG[R5] = (RG[R0] * C) & int('0' * 32 + '1' * 32, 2)
-        RG[R4] = ((RG[R0] * C) >> 32) & int('0' * 32 + '1' * 32, 2)
-        Assembly.check_S(RG[R5])
-        Assembly.check_Z(RG[R5])
-        Assembly.check_C(RG[R5], RG[R0], C)
-        Assembly.check_O(RG[R5])
-        Assembly.check_S(RG[R4])
-        Assembly.check_Z(RG[R4])
-        Assembly.check_C(RG[R4], RG[R0], C)
-        Assembly.check_O(RG[R4])
+    def MULI(RG: List[int], R0: int, C: int) -> None:
+        res = RG[R0] * C
+        RG[5] = res & int('0' * 32 + '1' * 32, 2)
+        RG[4] = (res >> 32) & int('0' * 32 + '1' * 32, 2)
+        Assembly.check_S(res)
+        Assembly.check_Z(res)
+        Assembly.check_C(res, RG[R0], C)
+        Assembly.check_O(res)
 
     @staticmethod
-    def DIV(RG: List[int], R5: int, R4: int, R0: int, R1: int) -> None:
-        RG[R5] = (RG[R0] // RG[R1]) & int('0' * 16 + '1' * 16, 2)
-        RG[R4] = ((RG[R0] % RG[R1]) >> 16) & int('0' * 16 + '1' * 16, 2)
-        Assembly.check_S(RG[R5])
-        Assembly.check_Z(RG[R5])
-        Assembly.check_C(RG[R5], RG[R0], RG[R1])
-        Assembly.check_O(RG[R5])
-        Assembly.check_S(RG[R4])
-        Assembly.check_Z(RG[R4])
-        Assembly.check_C(RG[R4], RG[R0], RG[R1])
-        Assembly.check_O(RG[R4])
+    def DIV(RG: List[int], R0: int, R1: int) -> None:
+        RG[5] = (RG[R0] // RG[R1]) & int('0' * 16 + '1' * 16, 2)
+        RG[4] = ((RG[R0] % RG[R1]) >> 16) & int('0' * 16 + '1' * 16, 2)
+        Assembly.check_S(RG[5])
+        Assembly.check_Z(RG[5])
+        Assembly.check_C(RG[5], RG[R0], RG[R1])
+        Assembly.check_O(RG[5])
 
     @staticmethod
-    def DIVI(RG: List[int], R5: int, R4: int, R0: int, C: int) -> None:
-        RG[R5] = (RG[R0] // C) & int('0' * 16 + '1' * 16, 2)
-        RG[R4] = ((RG[R0] % C) >> 16) & int('0' * 16 + '1' * 16, 2)
-        Assembly.check_S(RG[R5])
-        Assembly.check_Z(RG[R5])
-        Assembly.check_C(RG[R5], RG[R0], C)
-        Assembly.check_O(RG[R5])
-        Assembly.check_S(RG[R4])
-        Assembly.check_Z(RG[R4])
-        Assembly.check_C(RG[R4], RG[R0], C)
-        Assembly.check_O(RG[R4])
+    def DIVI(RG: List[int], R0: int, C: int) -> None:
+        RG[5] = (RG[R0] // C) & int('0' * 16 + '1' * 16, 2)
+        RG[4] = ((RG[R0] % C) >> 16) & int('0' * 16 + '1' * 16, 2)
+        Assembly.check_S(RG[5])
+        Assembly.check_Z(RG[5])
+        Assembly.check_C(RG[5], RG[R0], C)
+        Assembly.check_O(RG[5])
+
 
     @staticmethod
-    def MULS(RG: List[int], R5: int, R4: int, R0: int, R1: int) -> None:
-        return Assembly.MUL(RG, R5, R4, R0, R1)
+    def MULS(RG: List[int], R0: int, R1: int) -> None:
+        return Assembly.MUL(RG, R0, R1)
 
     @staticmethod
     def MULSI(RG: List[int], R5: int, R4: int, R0: int, C: int) -> None:
-        return Assembly.MULI(RG, R5, R4, R0, C)
+        return Assembly.MULI(RG, R0, C)
 
     @staticmethod
-    def DIVS(RG: List[int], R5: int, R4: int, R0: int, R1: int) -> None:
-        return Assembly.DIV(RG, R5, R4, R0, R1)
+    def DIVS(RG: List[int], R0: int, R1: int) -> None:
+        return Assembly.DIV(RG, R0, R1)
 
     @staticmethod
-    def DIVSI(RG: List[int], R5: int, R4: int, R0: int, C: int) -> None:
-        return Assembly.DIVSI(RG, R5, R4, R0, C)
+    def DIVSI(RG: List[int], R0: int, C: int) -> None:
+        return Assembly.DIVSI(RG, R0, C)
 
     @staticmethod
     def NOT(RG: List[int], R0: int) -> None:
@@ -239,7 +233,8 @@ class Assembly:
         RG[R0] = RG[R0] << C
         Assembly.check_S(RG[R0])
         Assembly.check_Z(RG[R0])
-        Assembly.check_C(RG[R0], t, C)
+        # Assembly.check_C(RG[R0], t, C)
+        set_C() if t & (1 << (32 - C)) else drop_C()
         Assembly.check_O(RG[R0])
 
     @staticmethod
@@ -248,7 +243,8 @@ class Assembly:
         RG[R0] = RG[R0] >> C
         Assembly.check_S(RG[R0])
         Assembly.check_Z(RG[R0])
-        Assembly.check_C(RG[R0], t, C)
+        # Assembly.check_C(RG[R0], t, C)
+        set_C() if t & (1 << C - 1) else drop_C()
         Assembly.check_O(RG[R0])
 
     @staticmethod
@@ -270,39 +266,48 @@ class Assembly:
 
     @staticmethod
     def JZ(C: int) -> None:
-        Assembly.JMP(C)
+        if Z():
+            Assembly.JMP(C)
 
     @staticmethod
     def JNZ(C: int) -> None:
-        Assembly.JMP(C)
+        if not Z():
+            Assembly.JMP(C)
 
     @staticmethod
     def JO(C: int) -> None:
-        Assembly.JMP(C)
+        if O():
+            Assembly.JMP(C)
 
     @staticmethod
     def JNO(C: int) -> None:
-        Assembly.JMP(C)
+        if not O():
+            Assembly.JMP(C)
 
     @staticmethod
     def JC(C: int) -> None:
-        Assembly.JMP(C)
+        if C():
+            Assembly.JMP(C)
 
     @staticmethod
     def JNC(C: int) -> None:
-        Assembly.JMP(C)
+        if not C():
+            Assembly.JMP(C)
 
     @staticmethod
     def JPS(C: int) -> None:
-        Assembly.JMP(C)
+        if S():
+            Assembly.JMP(C)
 
     @staticmethod
     def JMS(C: int) -> None:
-        Assembly.JMP(C)
+        if not S():
+            Assembly.JMP(C)
 
     @staticmethod
     def NOP() -> None:
-        set_PC(get_PC() + 1)
+        # set_PC(get_PC() + 1)
+        ...
 
     @staticmethod
     def INT() -> None:
@@ -346,19 +351,15 @@ class Assembly:
 
     @staticmethod
     def IFC(FP: List[int], RG: List[int], R0: int, R1: int) -> None:
-        FP[R0] = RG[R1]
-        Assembly.check_S(FP[R0])
-        Assembly.check_Z(FP[R0])
-        Assembly.check_C(FP[R0], RG[R1], 0)
-        Assembly.check_O(FP[R0])
+        FP[R0] = float(RG[R1])
 
     @staticmethod
     def FIC(FP: List[int], RG: List[int], R0: int, R1: int) -> None:
-        RG[R1] = FP[R0]
-        Assembly.check_S(FP[R1])
-        Assembly.check_Z(FP[R1])
-        Assembly.check_C(RG[R1], FP[R0], 0)
-        Assembly.check_O(FP[R1])
+        RG[R1] = int(FP[R0])
+        Assembly.check_S(RG[R1])
+        Assembly.check_Z(RG[R1])
+        # Assembly.check_C(RG[R1], FP[R0], 0)
+        # Assembly.check_O(RG[R1])
 
     @staticmethod
     def FADD(FP: List[int], R0: int, R1: int, R2: int) -> None:
@@ -369,12 +370,12 @@ class Assembly:
         return Assembly.SUB(FP, R0, R1, R2)
 
     @staticmethod
-    def FMUL(FP: List[int], R5: int, R4: int, R0: int, R1: int) -> None:
-        return Assembly.MUL(FP, R5, R4, R0, R1)
+    def FMUL(FP: List[int], R0: int, R1: int, R2: int) -> None:
+        FP[R0] = FP[R1] * FP[R2]
 
     @staticmethod
-    def FDIV(FP: List[int], R5: int, R4: int, R0: int, R1: int) -> None:
-        return Assembly.DIV(FP, R5, R4, R0, R1)
+    def FDIV(FP: List[int], R0: int, R1: int, R2: int) -> None:
+        FP[R0] = FP[R1] / FP[R2]
 
     @staticmethod
     def FMOV(FP: List[int], R0: int, R1: int) -> None:
