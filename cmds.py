@@ -168,23 +168,6 @@ class Assembly:
         Assembly.check_C(RG[5], RG[R0], C)
         Assembly.check_O(RG[5])
 
-
-    @staticmethod
-    def MULS(RG: List[int], R0: int, R1: int) -> None:
-        return Assembly.MUL(RG, R0, R1)
-
-    @staticmethod
-    def MULSI(RG: List[int], R5: int, R4: int, R0: int, C: int) -> None:
-        return Assembly.MULI(RG, R0, C)
-
-    @staticmethod
-    def DIVS(RG: List[int], R0: int, R1: int) -> None:
-        return Assembly.DIV(RG, R0, R1)
-
-    @staticmethod
-    def DIVSI(RG: List[int], R0: int, C: int) -> None:
-        return Assembly.DIVSI(RG, R0, C)
-
     @staticmethod
     def NOT(RG: List[int], R0: int) -> None:
         RG[R0] = ~RG[R0]
