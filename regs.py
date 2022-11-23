@@ -1,10 +1,9 @@
 RG = [0 for _ in range(32)]
 FP = [0 for _ in range(32)]
 
-PCR = 0
 PC = 0
 
-MEM = [0 for _ in range(256)]
+MEM = [0 for _ in range(2048)]
 
 FLR = 0
 TLB = 0
