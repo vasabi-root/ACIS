@@ -60,7 +60,7 @@ class Compiler:
             elif (cmd_list[0] in JUMP_COMMANDS):
                 self.parse_jump_cmd(cmd_list)
             elif (cmd_list[0].count(':') != 1):
-                raise CompileError(f'There is no command \'{cmd_list[0]}\'!', self.cur_str) 
+                raise CompileError(f'There is no command \'{cmd_list[0]}\'!', self.cur_str+1) 
         
         self.cur_cmd = PC_to_index()
         self.if_parsed = True
@@ -115,7 +115,7 @@ class Compiler:
             try:
                 eval_str += str(self.markers[cmd_list[1]])
             except KeyError:
-                raise CompileError(f'Marker \'{cmd_list[1]}\' does not exists!', self.str_num)
+                raise CompileError(f'Marker \'{cmd_list[1]}\' does not exists!', self.str_num+1)
             cur_cmd = (self.markers[cmd_list[1]] - OFFSET) / COMMAND_SIZE
             
         eval_str += ')'
@@ -126,7 +126,7 @@ class Compiler:
         marker = re.split(f':', cmd_list[0])[0]
         try:
             self.markers[marker]
-            raise CompileError(f'Marker \'{marker}\' already exists!', self.str_num)
+            raise CompileError(f'Marker \'{marker}\' already exists!', self.str_num+1)
         except KeyError:
             self.markers[marker] = OFFSET + (self.cur_cmd - len(self.markers) - 1)*4
             
