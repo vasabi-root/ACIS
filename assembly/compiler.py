@@ -4,23 +4,6 @@ from assembly.cmds import SimpleCommands, JumpCommands
 from assembly.regs import *
 from assembly.syntax import *
 
-
-def parse_asm(text: str) -> int:
-    funcs = dir(SimpleCommands)
-    regs = dir()
-    strings = re.split('[;\n]+', text)
-    for str in strings:
-        print(str)
-        cmd = re.split(f'[ ,]+', str)
-        print(cmd)
-        if (cmd[0] in funcs):
-            # for i in range(1, len(cmd)):
-            #     if (cmd[i] in )
-            # eval(cmd[0] + '(' + ')')
-            pass
-        else:
-            return -1
-
 class CompileError(Exception):
     def __init__(self, text, str_num) -> None:
         self.text = text + f'\nString #{str(str_num)}' 
@@ -86,6 +69,7 @@ class Compiler:
     def play_step(self):
         
         # CompileError ловить в assembly.__init__ !!!
+        
         if (not self.if_parsed):
             self.parse()
         
@@ -98,24 +82,21 @@ class Compiler:
             eval(eval_expr[1])
             
             inc_PC()
-            # if (PC_to_index() >= len(self.evals)):
-                
             
             self.cur_str = eval_expr[0]
             
             
     def parse_simple_cmd(self, cmd_list: []) -> None:
         eval_str = f'SimpleCommands.{cmd_list[0]}('
-        # parameters = []
-        # parameters = eval(f're.split(f\'[\(\),]+| -> None\', str(inspect.signature(SimpleCommands.{cmd_list[0]})))')
-        # rm_emptyness(parameters)
         
         for i in range(1, len(cmd_list)):
             s = re.split('[R]+', str(cmd_list[i]))
             rm_emptyness(s)
-            eval_str += s[0] + ', '
+            if (cmd_list[i] in FLAGS):
+                eval_str += str(FLAGS.index(cmd_list[i])) + ', '
+            else:
+                eval_str += s[0] + ', '
             
-            # eval_str += str(cmd_list[i]) + ', '
         if (len(cmd_list) > 1):
             eval_str = eval_str[:-2]
         eval_str += ')'
@@ -152,10 +133,8 @@ class Compiler:
     
     def parse_start_point(self) -> None:
         try:
-            # self.start_cmd = self.markers[START_POINT]
             set_PC(self.markers[START_POINT] + COMMAND_SIZE)
         except KeyError:
-            # self.start_cmd = 0
             set_PC(OFFSET)
             
             

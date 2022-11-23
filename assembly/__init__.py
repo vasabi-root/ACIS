@@ -1,9 +1,9 @@
 from form import Ui_Widget
 
-from PyQt5.QtCore import QTextCodec
+from PyQt5.QtCore import QTextCodec, QObject, Qt
 from PyQt5.QtWidgets import (
     QWidget, QPushButton, QFileDialog, QMessageBox,
-    QTableWidgetItem, 
+    QTableWidgetItem, QStyle
 )
 
 import os
@@ -64,6 +64,10 @@ class Assembly_Opers:
             
     def update_ui(self) -> None:
         self.update_RG()
+        self.update_CPR()
+        self.update_MEM()
+        self.update_PCR()
+        self.update_FLR()
     
     
     def update_RG(self) -> None:
@@ -74,8 +78,31 @@ class Assembly_Opers:
             
     def update_CPR(self) -> None:
         for row in range(self.ui.tableCPR.rowCount()):
-            item = QTableWidgetItem(str(RG[row]))
+            item = QTableWidgetItem(str(FP[row]))
             self.ui.tableCPR.setItem(row, 0, item)
+
+        
+    def update_MEM(self) -> None:
+        for row in range(self.ui.tableMem.rowCount()):
+            for col in range(self.ui.tableMem.columnCount()):
+                item = QTableWidgetItem(str(MEM[row*self.ui.tableMem.columnCount() + col]))
+                self.ui.tableMem.setItem(row, col, item)
+                # item = QTableWidgetItem(str(MEM[row]))
+                # self.ui.tableRGP.setItem(row, 0, item)
+                
+        
+    def update_PCR(self) -> None:
+        self.ui.lineEditPCR.setText(str(get_PC()))
+
+
+    def update_FLR(self) -> None:
+        self.ui.checkBoxC.setChecked(C())
+        self.ui.checkBoxI.setChecked(I())
+        self.ui.checkBoxM.setChecked(M())
+        self.ui.checkBoxO.setChecked(O())
+        self.ui.checkBoxS.setChecked(S())
+        self.ui.checkBoxT.setChecked(T())
+        self.ui.checkBoxZ.setChecked(Z())
             
             
     def set_arrow(self) -> None:

@@ -37,6 +37,7 @@ class Widget(QWidget):
         
         self.file = File_Opers(self.ui, self)
         self.assembly = Assembly_Opers(self.ui, self)
+        self.setWindowTitle('ACIS SQUAD RISC')
         
         
     def synchro_scroll(self) -> None:
