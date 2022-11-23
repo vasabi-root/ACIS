@@ -26,6 +26,7 @@ class Compiler:
         
         
     def set_text(self, text: str) -> None:
+        text = text.upper()
         self.cmd_text = re.split('[;\n]+', text)
         rm_emptyness(self.cmd_text)
         self.str_text = text.split('\n')

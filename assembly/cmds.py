@@ -81,14 +81,14 @@ class SimpleCommands:
     @staticmethod
     def WW(R0: int, R1: int, C: int = 0) -> None:
         MEM[RG[R1] + C] = RG[R0] & 0xff
-        MEM[RG[R1] + C + 1] = RG[R0] & 0xff00
+        MEM[RG[R1] + C + 1] = (RG[R0] & 0xff00) >> 8
 
     @staticmethod
     def WD(R0: int, R1: int, C: int = 0) -> None:
         MEM[RG[R1] + C] = RG[R0] & 0xff
-        MEM[RG[R1] + C + 1] = RG[R0] & 0xff00
-        MEM[RG[R1] + C + 2] = RG[R0] & 0xff0000
-        MEM[RG[R1] + C + 3] = RG[R0] & 0xff000000
+        MEM[RG[R1] + C + 1] = (RG[R0] & 0xff00) >> 8
+        MEM[RG[R1] + C + 2] = (RG[R0] & 0xff0000) >> 16
+        MEM[RG[R1] + C + 3] = (RG[R0] & 0xff000000) >> 24
 
     @staticmethod
     def RI(R0: int, C: int = 0) -> None:
@@ -248,7 +248,7 @@ class SimpleCommands:
 
     @staticmethod
     def CFL(F: int) -> None:
-        drop_FLR(0 << F)
+        drop_FLR(~(1 << F))
 
     @staticmethod
     def RTLB(R0: int) -> None:
