@@ -10,7 +10,7 @@ from PyQt5.QtCore import QFile, Qt
 from PySide2.QtUiTools import QUiLoader
 
 from parse_qt_palette import parse_xml
-from form import Ui_Widget
+from form import Ui_widget
 from file_operations import File_Opers
 from assembly import Assembly_Opers
 
@@ -23,11 +23,11 @@ class Widget(QWidget):
         palette = qApp.palette()
         pathPalette = os.fspath(Path(__file__).resolve().parent / "default_palette.xml")
         
-        self.ui = Ui_Widget()
+        self.ui = Ui_widget()
         self.ui.setupUi(self)
         
-        tableInit(self.ui.tableRGP, 50)
-        tableInit(self.ui.tableCPR, 50)
+        tableInit(self.ui.tableRGP, 100)
+        tableInit(self.ui.tableCPR, 100)
         tableInit(self.ui.tableMem, 30)
         
         self.synchro_scroll()
@@ -51,6 +51,9 @@ class Widget(QWidget):
         self.ui.textEditStep.setAlignment(Qt.AlignRight)
         self.ui.textEditNums.verticalScrollBar().setVisible(False)
         self.ui.textEditStep.verticalScrollBar().setVisible(False)
+        
+    def closeEvent(self, e) -> None:
+        self.file.close()
 
 def tableInit(table: QTableWidget, width: int) -> None:
     table.setVerticalScrollMode(QAbstractItemView.ScrollPerPixel)

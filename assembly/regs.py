@@ -1,4 +1,4 @@
-OFFSET = 1123 # OS вернула 
+OFFSET = 1243 # OS вернула 
 COMMAND_SIZE = 4 # Bytes
 
 RG = [0 for _ in range(32)]

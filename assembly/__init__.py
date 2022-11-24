@@ -1,4 +1,4 @@
-from form import Ui_Widget
+from form import Ui_widget
 
 from PyQt5.QtCore import QTextCodec, QObject, Qt
 from PyQt5.QtWidgets import (
@@ -11,7 +11,7 @@ from assembly.compiler import Compiler, CompileError
 from assembly.regs import *
 
 class Assembly_Opers:
-    def __init__(self, ui: Ui_Widget, widget: QWidget) -> None:
+    def __init__(self, ui: Ui_widget, widget: QWidget) -> None:
         self.ui = ui
         self.widget = widget
         self.compiler = Compiler()
@@ -55,7 +55,7 @@ class Assembly_Opers:
             self.show_error_msg(comp_err)
             return True
             
-        if (self.compiler.cur_cmd == len(self.compiler.evals)):
+        if (PC_to_index() >= self.compiler.cmd_num):
             self.show_done_msg()
             return True
 

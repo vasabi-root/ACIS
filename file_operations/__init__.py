@@ -1,4 +1,4 @@
-from form import Ui_Widget
+from form import Ui_widget
 
 from PyQt5.QtCore import QTextCodec
 from PyQt5.QtWidgets import (
@@ -10,7 +10,7 @@ from pathlib import Path
 import os
 
 class File_Opers:
-    def __init__(self, ui: Ui_Widget, widget: QWidget) -> None:
+    def __init__(self, ui: Ui_widget, widget: QWidget) -> None:
         self.ui = ui
         self.widget = widget
         self.file_name = None
@@ -27,15 +27,23 @@ class File_Opers:
         self.ui.pushButtonClose.clicked.connect(self.close)
         
     def open(self) -> None:
+        if (self.if_changed):
+            self.close()
         self.file_name = QFileDialog.getOpenFileName(
             self.widget,
             'Open file', 
             os.getcwd(), 
-            '(*.asm)'
+            'ASM file (*.asm);;'
         )[0]
         if (len(self.file_name) > 0):
-            self.f = open(self.file_name, "r")
-            self.ui.textEditCode.setText(self.f.read().upper())
+            try:
+                self.f = open(self.file_name, "r")
+                self.ui.textEditCode.setText(self.f.read())
+            except Exception:
+                self.show_error_msg('Cannot read this file!')
+                
+            self.f = None
+            self.if_changed = False
     
     def save(self) -> None:
         if (not self.f):
@@ -61,7 +69,7 @@ class File_Opers:
             self.widget,
             'Save file as', 
             os.getcwd(), 
-            '(*.asm)'
+            'ASM file (*.asm);;'
         )[0]
         if (len(self.file_name) > 0):
             self.f = open(self.file_name, "w")
@@ -71,14 +79,7 @@ class File_Opers:
         
     def close(self) -> None:
         if (self.if_changed):
-            self.save_msg = QMessageBox()
-            self.save_msg.setStyleSheet('color: black;')
-            self.save_msg.setIcon(QMessageBox.Information)
-            self.save_msg.setText('Do you want to save changes?')
-            self.save_msg.setWindowTitle('Save warning')
-            self.save_msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
-            
-            return_val = self.save_msg.exec()
+            return_val = self.show_save_msg()
             if (return_val == QMessageBox.Yes):
                 if (self.f):
                     self.save()
@@ -88,6 +89,23 @@ class File_Opers:
                 self.ui.textEditCode.setText('')
         else:
             self.ui.textEditCode.setText('')
+            
+    def show_save_msg(self) -> int:
+        self.save_msg = QMessageBox()
+        self.save_msg.setStyleSheet('color: black;')
+        self.save_msg.setIcon(QMessageBox.Information)
+        self.save_msg.setText('Do you want to save changes?')
+        self.save_msg.setWindowTitle('Save warning')
+        self.save_msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
+        return self.save_msg.exec()
+
+    def show_error_msg(self, msg: str) -> None:
+        self.err_msg = QMessageBox()
+        self.err_msg.setStyleSheet('color: black;')
+        self.err_msg.setIcon(QMessageBox.Critical)
+        self.err_msg.setWindowTitle('Open file error')
+        self.err_msg.setText(msg)
+        self.err_msg.exec()
                 
             
         
