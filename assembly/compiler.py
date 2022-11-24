@@ -79,8 +79,10 @@ class Compiler:
             eval_expr = self.evals[self.cur_cmd]
             
             old_pc = get_PC()
-            
-            eval(eval_expr[1])
+            try:
+                eval(eval_expr[1])
+            except NameError as name_er:
+                raise CompileError('There is no instance \'' + name_er.name + '\'' , self.str_num)
             
             inc_PC()
             
